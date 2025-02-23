@@ -21,18 +21,6 @@ function login(Request $request) {
     }
 }
 
-function validateLoginData(Request $request) {
-    $validator = \Illuminate\Validation\Factory::make($request->all(), [
-        'username' => 'required|string',
-        'password' => 'required|string',
-    ]);
-
-    if ($validator->fails()) {
-        throw new ValidationException($validator);
-    }
-
-    return $validator->validated();
-}
 
 function generateJWT($username) {
     $payload = [
