@@ -3,7 +3,6 @@ This is a simple PHP API application that provides user authentication using JSO
 
 ## Technologies Used
 - PHP
-- Laravel (Illuminate components)
 - JWT (firebase/php-jwt)
 - Docker
 
