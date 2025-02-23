@@ -11,5 +11,8 @@
             "email": "devops@khallasli.com"
         }
     ],
-    "require": {}
+    "require": {
+        "symfony/cache": "^7.2",
+        "ramsey/uuid": "^4.7"
+    }
 }
