@@ -13,10 +13,15 @@
     ],
     "require": {
         "symfony/cache": "^7.2",
-        "ramsey/uuid": "^4.7",
+        "ramsey/uuid": "*",
         "firebase/php-jwt": "*",
         "illuminate/validation": "*",
         "filp/whoops": "*",
-        "vlucas/phpdotenv": "*"
+        "vlucas/phpdotenv": "*",
+        "nikic/fast-route": "*",
+        "psr/http-server-middleware": "*",
+        "psr/http-server-handler": "*",
+        "psr/log": "*",
+        "psr/container": "*"
     }
 }
