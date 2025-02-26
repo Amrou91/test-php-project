@@ -33,16 +33,18 @@ switch ($routeInfo[0]) {
     case FastRoute\Dispatcher::FOUND:
         $handler = $routeInfo[1];
         $vars = $routeInfo[2];
-
+        
         [$class, $method] = $handler;
         $controller = new $class();
-
+        
         // Read JSON input for POST requests
         if ($httpMethod === 'POST' && $uri === '/api/login') {
             $data = json_decode(file_get_contents('php://input'), true); // Get JSON input
-            echo json_encode($controller->$method($data)); // Pass the decoded data to the controller
+            $response = $controller->$method($data); // Get the response from the controller
+            echo $response; // Output the response
         } else {
             echo json_encode($controller->$method($vars)); // Handle other requests normally
         }
         break;
+        
 }
