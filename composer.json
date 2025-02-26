@@ -13,7 +13,7 @@
     ],
     "require": {
         "symfony/cache": "^7.2",
-        "ramsey/uuid": "*",
+        "ramsey/uuid": "^4.0",
         "firebase/php-jwt": "*",
         "illuminate/validation": "*",
         "filp/whoops": "*",
@@ -22,6 +22,8 @@
         "psr/http-server-middleware": "*",
         "psr/http-server-handler": "*",
         "psr/log": "*",
-        "psr/container": "*"
+        "psr/container": "*",
+        "psr/cache": "^2.0", 
+        "cache/filesystem-adapter": "^1.0" 
     }
 }

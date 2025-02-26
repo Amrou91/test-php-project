@@ -3,35 +3,36 @@
 namespace App\Controllers;
 
 use Firebase\JWT\JWT;
-use Illuminate\Validation\Factory;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
-class AuthController {
-    public function login(Request $request) {
-        $data = json_decode($request->getContent(), true);
+class AuthController
+{
+    public function login(array $data)
+        {
+            // Validate input
+            if (!isset($data['username']) || !isset($data['password'])) {
+                return new JsonResponse(['error' => 'Username and password are required.'], 400);
+            }
 
-        $validator = new Factory();
-        $validation = $validator->make($data, [
-            'username' => 'required|string',
-            'password' => 'required|string'
-        ]);
+            // Verify the username and password
+            if ($data['username'] !== 'admin' || $data['password'] !== 'secret') {
+                return new JsonResponse(['error' => 'Unauthorized'], 401);
+            }
 
-        if ($validation->fails()) {
-            return new JsonResponse(['error' => $validation->errors()], 400);
+            // Generate JWT token
+            $payload = [
+                'username' => $data['username'],
+                'iat' => time(),
+                'exp' => time() + 3600 // Token valid for 1 hour
+            ];
+            
+            $secret = getenv('JWT_SECRET');
+            if (!$secret) {
+                return new JsonResponse(['error' => 'JWT secret is not set.'], 500);
+            }
+
+            $jwt = JWT::encode($payload, $secret, 'HS256');
+
+            return new JsonResponse(['token' => $jwt]);
         }
-
-        if ($data['username'] !== 'admin' || $data['password'] !== 'secret') {
-            return new JsonResponse(['error' => 'Unauthorized'], 401);
-        }
-
-        $payload = [
-            'username' => $data['username'],
-            'iat' => time(),
-            'exp' => time() + 3600
-        ];
-        $jwt = JWT::encode($payload, getenv('JWT_SECRET'), 'HS256');
-
-        return new JsonResponse(['token' => $jwt]);
-    }
 }

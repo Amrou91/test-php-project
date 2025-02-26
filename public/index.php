@@ -15,7 +15,7 @@ $dispatcher = simpleDispatcher(function (RouteCollector $r) {
     $r->addRoute('GET', '/api/protected', ['App\Controllers\ProtectedController', 'protectedRoute']);  
 });
 
-// Récupération de la requête HTTP
+// Get HTTP request
 $httpMethod = $_SERVER['REQUEST_METHOD'];
 $uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
 
@@ -36,6 +36,13 @@ switch ($routeInfo[0]) {
 
         [$class, $method] = $handler;
         $controller = new $class();
-        echo json_encode($controller->$method($vars));
+
+        // Read JSON input for POST requests
+        if ($httpMethod === 'POST' && $uri === '/api/login') {
+            $data = json_decode(file_get_contents('php://input'), true); // Get JSON input
+            echo json_encode($controller->$method($data)); // Pass the decoded data to the controller
+        } else {
+            echo json_encode($controller->$method($vars)); // Handle other requests normally
+        }
         break;
 }
